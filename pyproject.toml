@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools", "wheel", "pip"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cube2pio"
+version = "0.0.1"
+description = "Handy conversion module for STM32CubeIDE 🧊 projects to PlatformIO 🐜 projects"
+authors = [
+    { name = "jake-is_ESD-protected", email = "jake@jesdev.io" }
+    ]
+license = { text = "GPL-3.0-only" }
+dependencies = [
+    "setuptools",
+    "wheel",
+    "pip"
+    ]
+requires-python = "> 3.9"
+keywords = ["Embedded Systems", "PlatformIO", "STM32CubeIDE", "STM32", "Helper Tool"]
+classifiers = []
+urls = { homepage = "https://github.com/jesdev-io/cube2pio" }
+
+[tool.setuptools.packages.find]
+include = ["cube2pio"]
+
+[project.scripts]
+cube2pio = "cube2pio.cube2pio:main"
