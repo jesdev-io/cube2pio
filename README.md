@@ -33,7 +33,7 @@ void port_loop(){
 ```
 Additionally, you can specify a port folder name with `-l <name>`, e.g. `-l port_adc_app`. This is useful when your PlatformIO project contains more than one firmware that can be selected by the PlatformIO environment. 
 
-You can also add the flag `--use-freertos` if you link FreeRTOS externally with PlatformIO. See [How it works](#how-it-works) for details on why this is needed.
+You can also add the flag `--use-freertos` if you link FreeRTOS externally with PlatformIO. See [How it works](#-how-it-works) for details on why this is needed.
 
 ## 💡 How it works
 `cube2pio` copies the necessary source files of the Cube folder `Core/Src` and `Core/Inc` to `lib/<port_name>`. It also puts all contents of `main.c` into `port.c` so you can specify your own `main.c`. There, the function `port_setup()` and `port_loop()` are inserted before and after the `while(1)` of the "true" main function in `port.c`. This means that all HAL initializations happened **before** `port_loop()` is called. This way, your `main.c` can focus on the application without seeing the boilerplate all the time. If something fails during init, the default `Error_Handler()` of the imported project is triggered. If you want to define ISRs with the HAL specific signature, you can do so in your `main.c` or any other custom source file in `src/` or `lib/`.
