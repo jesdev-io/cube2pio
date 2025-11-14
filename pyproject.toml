@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cube2pio"
-version = "0.0.1"
+version = "0.0.2"
 description = "Handy conversion module for STM32CubeIDE 🧊 projects to PlatformIO 🐜 projects"
 authors = [
     { name = "jake-is_ESD-protected", email = "jake@jesdev.io" }
