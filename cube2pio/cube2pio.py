@@ -46,14 +46,18 @@ def port_copy(cube_project_dir: str, pio_project_dir: str, lib_dir: str, use_fre
     inc_files = os.listdir(inc_path)
 
     for s_f in src_files:
-        if use_freertos and s_f in ["stm32f4xx_it.c", "stm32l4xx_it.c"]:
-            with open(join(src_path, s_f), "r") as f:
-                lines = f.readlines()
-            with open(join(src_path, s_f), "w") as f:
-                for line in lines:
-                    if not any(x in line for x in ["SVC_Handler", "PendSV_Handler", "SysTick_Handler"]):
-                        f.write(line)
         shutil.copy(join(src_path, s_f), join(local_path, s_f))
+        if use_freertos and "_it.c" in s_f:
+            with open(join(local_path, s_f), "r+") as f:
+                lines = f.readlines()
+                f.seek(0)
+                for i, line in enumerate(lines):
+                    if any(x in line for x in ["void SVC_Handler(void)", "void PendSV_Handler(void)", "void SysTick_Handler(void)"]):
+                        if "__weak" in line:
+                            continue
+                        lines[i] = "__weak " + line
+                f.write("".join(lines))
+                f.truncate()
 
     for i_f in inc_files:
         shutil.copy(join(inc_path, i_f), join(local_path, i_f))
