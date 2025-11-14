@@ -26,17 +26,6 @@ def line_extract(start: str, stop: str, content: List[str]) -> List[str]:
     i_stop = lines_stripped.index(stop)
     return content[i_start+1:i_stop]
 
-def port_init(pio_project_dir: str):
-    main_path = join(pio_project_dir, "src")
-    if not os.path.exists(join(main_path, "main.c")):
-        content = """#include "port.h"
-void port_setup(void){
-}
-void port_loop(void){
-}"""
-        with open(join(main_path, "main.c"), "w") as f:
-            f.write(content)
-
 def port_copy(cube_project_dir: str, pio_project_dir: str, lib_dir: str, use_freertos: bool):
     local_path = join(pio_project_dir, "lib", lib_dir)
     os.makedirs(local_path, exist_ok=True)
@@ -127,7 +116,6 @@ def main():
     parser.add_argument("--use-freertos", action="store_true", help="Omit SVC_Handler, PendSV_Handler, and SysTick_Handler if using FreeRTOS.")
     args = parser.parse_args()
 
-    port_init(args.pio_project_dir)
     port_copy(args.cube_project_dir, args.pio_project_dir, args.lib_dir, args.use_freertos)
     port_insert(args.cube_project_dir, args.pio_project_dir, args.lib_dir)
 
